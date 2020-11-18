@@ -13,6 +13,7 @@ export default class App extends React.Component {
       country:'1',
       gender:'mail',
       agree:true,
+      avatar:'',
     }
   }
   onChange=(event)=>{
@@ -27,7 +28,18 @@ export default class App extends React.Component {
       //либо можно написать так, обратить внимание что True при возврате получается строка  строка
       //[event.target.name]:event.target.value=="true"?false:true
     })
-  }
+  };
+
+  onChangeAvatar = (event) => {
+    const reader = new FileReader();
+    reader.onload = event => {
+      this.setState({
+        avatar:event.target.result
+      });
+    };
+    // console.log(event.target.files[0]);
+    reader.readAsDataURL(event.target.files[0]);
+  };
 
   onSubmit=(event)=>{
     event.preventDefault();
@@ -126,7 +138,17 @@ export default class App extends React.Component {
                 </label>
             </div>
           </fieldset>
-          <div className="form-check">
+          <div className="form-group">
+            <label htmlFor="avatar">Avatar</label>
+            <input
+                type="file"
+                className="form-control-file"
+                id="avatar"
+                name='avatar'
+                onChange={this.onChangeAvatar}
+            />
+          </div>
+          <div className="form-check mb-2">
             <input className="form-check-input"
                    type="checkbox"
                    id="agree"
@@ -136,7 +158,7 @@ export default class App extends React.Component {
                    checked={this.state.agree}
             />
               <label className="form-check-label" htmlFor="agree">
-               Agree </label>
+               Confirm </label>
           </div>
           <button type="submit" className="btn btn-primary w-100"
           onClick={this.onSubmit}
