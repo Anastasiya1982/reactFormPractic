@@ -11,6 +11,7 @@ export default class App extends React.Component {
       password:'',
       repeatPassword:'',
       country:'1',
+      gender:'mail',
     }
   }
   onChange=(event)=>{
@@ -92,6 +93,31 @@ export default class App extends React.Component {
                {this.getOptionsItems(countries)}
              </select>
           </div>
+          <fieldset className='form-group'>
+            <div>Gender</div>
+            <div className="form-check">
+              <input className="form-check-input"
+                     type="radio"  id="male"
+                     name="gender"
+                     value="male"
+                     checked={this.state.gender==="male"}
+              onChange={this.onChange}/>
+                <label className="form-check-label" htmlFor="male">
+                  Male
+                </label>
+            </div>
+            <div className="form-check">
+              <input className="form-check-input"
+                     type="radio" id="female"
+                     name="gender"
+                     value="female"
+                     checked={this.state.gender==="female"}
+                     onChange={this.onChange}/>
+                <label className="form-check-label" htmlFor="female">
+                  Female
+                </label>
+            </div>
+          </fieldset>
           <button type="submit" className="btn btn-primary w-100"
           onClick={this.onSubmit}
           >
