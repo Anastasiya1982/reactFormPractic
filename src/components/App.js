@@ -12,6 +12,7 @@ export default class App extends React.Component {
       repeatPassword:'',
       country:'1',
       gender:'mail',
+      agree:true,
     }
   }
   onChange=(event)=>{
@@ -20,6 +21,13 @@ export default class App extends React.Component {
     });
   };
 
+  onChangeAgree=(event)=>{
+    this.setState({
+      [event.target.name]:event.target.checked,
+      //либо можно написать так, обратить внимание что True при возврате получается строка  строка
+      //[event.target.name]:event.target.value=="true"?false:true
+    })
+  }
 
   onSubmit=(event)=>{
     event.preventDefault();
@@ -118,6 +126,18 @@ export default class App extends React.Component {
                 </label>
             </div>
           </fieldset>
+          <div className="form-check">
+            <input className="form-check-input"
+                   type="checkbox"
+                   id="agree"
+                   name="agree"
+                   value={this.state.agree===true}
+                   onChange={this.onChangeAgree}
+                   checked={this.state.agree}
+            />
+              <label className="form-check-label" htmlFor="agree">
+               Agree </label>
+          </div>
           <button type="submit" className="btn btn-primary w-100"
           onClick={this.onSubmit}
           >
