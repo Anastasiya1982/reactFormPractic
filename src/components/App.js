@@ -1,9 +1,13 @@
 import React from "react";
 import countries from "../data/countries";
 
+
+// for validation
+//must be more then 5 characters
+//Required
+//must be equal password
+
 export default class App extends React.Component {
-
-
   constructor() {
     super();
     this.state={
@@ -14,7 +18,8 @@ export default class App extends React.Component {
       gender:'mail',
       agree:true,
       avatar:'',
-    }
+      errors:{}
+    };
   }
   onChange=(event)=>{
     this.setState({
@@ -41,10 +46,30 @@ export default class App extends React.Component {
     reader.readAsDataURL(event.target.files[0]);
   };
 
-  onSubmit=(event)=>{
+  onSubmit=(event)=> {
     event.preventDefault();
-    console.log(this.username.value,this.password.value);
-    console.log(this.state)
+    // console.log(this.username.value,this.password.value);
+    const errors={}
+    if (this.state.username.length < 5) {
+     errors.username="Must be more then 5 characters";
+      }
+     if(this.state.password.length<3){
+      errors.password="Required more than 3 simbols";
+    }
+    if(this.state.password !==this.state.repeatPassword){
+      errors.repeatPassword="Must be equal password";
+    }
+    if(Object.keys(errors).length>0){
+      //error
+      this.setState({
+        errors:errors
+      });
+    } else{
+      this.setState({
+        errors:{}
+      });
+      console.log(this.state);
+    }
   };
 
   getOptionsItems=(items)=>{
@@ -70,14 +95,19 @@ export default class App extends React.Component {
           <div className="form-group">
             <label>Username</label>
             <input
-              type="text"
-              className="form-control"
-              placeholder="Enter username"
-              ref={node=>this.username=node}
-              value={this.state.username}
-              name='username'
-              onChange={this.onChange}
+                type="text"
+                className="form-control"
+                placeholder="Enter username"
+                ref={node => this.username = node}
+                value={this.state.username}
+                name='username'
+                onChange={this.onChange}
             />
+            {this.state.errors.username ? (
+                <div className="invalid-feedback">
+                  {this.state.errors.username}
+                </div>)
+                : null}
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -87,8 +117,14 @@ export default class App extends React.Component {
               ref={node=>this.password=node}
               value={this.state.password}
               name='password'
+              placeholder="Enter password"
               onChange={this.onChange}
             />
+            {this.state.errors.password ? (
+                    <div className="invalid-feedback">
+                      {this.state.errors.password}
+                    </div>)
+                : null}
           </div>
           <div className="form-group">
             <label>Repeat password</label>
@@ -101,6 +137,11 @@ export default class App extends React.Component {
               name='repeatPassword'
               onChange={this.onChange}
             />
+            {this.state.errors.repeatPassword ? (
+                    <div className="invalid-feedback">
+                      {this.state.errors.repeatPassword}
+                    </div>)
+                : null}
           </div>
           <div className="form-group">
             <label htmlFor="country">Country</label>
